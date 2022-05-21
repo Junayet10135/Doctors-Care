@@ -11,10 +11,10 @@ const MyAppointments = () => {
 
     useEffect(() => {
         if (user) {
-            fetch(`http://localhost:5000/booking?patient=${user.email}`,{
-                method:'GET',
-                headers:{
-                    'authorization' : `Bearer ${localStorage.getItem('accessToken')}`
+            fetch(`https://damp-coast-55504.herokuapp.com/booking?patient=${user.email}`, {
+                method: 'GET',
+                headers: {
+                    'authorization': `Bearer ${localStorage.getItem('accessToken')}`
                 }
             })
                 .then(res => {
@@ -56,11 +56,13 @@ const MyAppointments = () => {
                                 <td>{a.slot}</td>
                                 <td>{a.treatment}</td>
                                 <td>
-                                {(a.price && !a.paid) && <Link to={`/dashboard/payment/${a._id}`}><button className='btn btn-xs btn-success text-white'>Payment</button></Link>}
+                                    {(a.price && !a.paid) && <Link to={`/dashboard/payment/${a._id}`}><button className='btn btn-xs btn-success text-white'>Payment</button></Link>}
+                                    {(a.price && a.paid) && <div>
+                                        <p><span className='text-success'>Paid</span></p>
+                                        <p>Transaction id: <span className='text-success'>{a.transactionId}</span></p>
+                                    </div>}
                                 </td>
-                                <td>
-                                    {(a.price && a.paid) && <span className='text-success'> paid</span>}
-                                </td>
+
                             </tr>)
                         }
 
